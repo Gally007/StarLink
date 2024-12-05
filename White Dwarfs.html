@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore the Galaxy</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Verdana', sans-serif;
+            color: #ffffff;
+            background: radial-gradient(circle at center, #020024, #090979, #00d4ff);
+            overflow: hidden;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        header {
+            text-align: center;
+            padding: 100px 20px 50px;
+            z-index: 1;
+            position: relative;
+        }
+        header h1 {
+            font-size: 3.5rem;
+            color: #ffdf85;
+            text-shadow: 0px 0px 15px #ffdf85, 0px 0px 30px #f5c242;
+        }
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            margin: 20px 0;
+            background: rgba(0, 0, 50, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 50, 0.8);
+        }
+    </style>
+
+</head>
+<body>
+    <canvas id="galaxyCanvas"></canvas>
+    <header>
+        <h1 style="font-size:50px; text-align:center; margin-top:20px;">White Dwarfs</h1>
+       <p style="font-size:20px; text-align:center;">A white dwarf is a type of star that represents the final evolutionary stage<br> of stars with low to medium mass (up to about 8 times the mass of the Sun). After exhausting the <br>nuclear fuel in its core, such stars shed their outer layers and leave behind a dense, hot core that becomes a white dwarf.</p>
+
+
+<hr style="width: 80%;">
+<h2 style="font-size:27px; text-align:center; margin-top:25px;">About White Dwarfs</h2>
+            <p style="font-size:15px; text-align:center;">White dwarfs are about the size of Earth, but with a mass comparable to the Sun. <br>This makes them extremely dense. Primarily composed of electron-degenerate matter (mostly carbon and oxygen).<br>Initially very hot, with surface temperatures exceeding 100,000 K, but they gradually cool and fade over billions of years.<br>White dwarfs no longer undergo nuclear fusion; instead, they shine due to the residual heat left over from their previous life stages.</p>
+
+<hr style="width: 60%;">
+
+<div style="text-align:center; margin-top:50px; background-color: transparent;">
+<a style="padding-right:20px;" href="Main Sequence Stars.html">Main Sequence Stars</a>
+<a style="padding-right:20px;" href="Red Giant.html">Red Giants</a>
+<a style="padding-right:20px;" href="Red Dwarfs.html">Red Dwarfs</a>
+<a style="padding-right:20px;" href="Neutron Stars.html">Neutron Stars</a>
+<a style="padding-right:20px;" href="Brown Dwarfs.html">Brown Dwarfs</a>
+<a style="padding-right:20px;" href="index.html.html">about</a>
+</div>
+
+    </header>
+    <script>
+        const canvas = document.getElementById('galaxyCanvas');
+        const ctx = canvas.getContext('2d');
+        const stars = [];
+        const STAR_COUNT = 700;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speed = Math.random() * 0.5 + 0.2;
+                this.color = this.getRandomColor();
+            }
+            getRandomColor() {
+                const colors = ['#ffffff', '#ffddc1', '#aabbff', '#ff7b7b'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+                this.draw();
+            }
+        }
+
+        function drawGalaxyBackground() {
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 2,
+                canvas.height / 2,
+                0,
+                canvas.width / 2,
+                canvas.height / 2,
+                canvas.width / 2
+            );
+            gradient.addColorStop(0, 'rgba(50, 20, 70, 0.7)');
+            gradient.addColorStop(0.5, 'rgba(20, 10, 40, 0.6)');
+            gradient.addColorStop(1, 'rgba(10, 0, 20, 0.9)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function initStars() {
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animateGalaxy() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGalaxyBackground();
+            stars.forEach(star => star.update());
+            requestAnimationFrame(animateGalaxy);
+        }
+
+        initStars();
+        animateGalaxy();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars.length = 0;
+            initStars();
+        });
+    </script>
+</body>
+</html>

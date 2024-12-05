@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore the Stars</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Vernada', sans-serif;
+            color: #ffffff;
+            background: linear-gradient(to bottom, #020024, #090979, #00d4ff);
+            overflow-x: hidden;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        header {
+            text-align: center;
+            padding: 100px 20px 50px;
+            z-index: 1;
+            position: relative;
+        }
+        header h1 {
+            font-size: 3.5rem;
+            color: #ffdf85;
+            text-shadow: 0px 0px 15px #ffdf85, 0px 0px 30px #f5c242;
+        }
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            margin: 20px 0;
+            background: rgba(0, 0, 50, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        section h2 {
+            font-size: 2rem;
+            color: #ffdf85;
+        }
+        section p, ul {
+            line-height: 1.6;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 50, 0.8);
+        }
+ </style>
+</head>
+<body>
+    <canvas id="stars"></canvas>
+    <header>
+<h1 style="font-size:40px; text-align:center; margin-top:1px;">Brown Dwarfs</h1>
+            <p style="font-size:20px; text-align:center;">A white dwarf is the final stage of a star like our Sun after it has exhausted its fuel. When a star runs out of energy, it sheds its outer layers, forming a glowing cloud called a planetary nebula, and leaves behind a small, dense core. This core, the white dwarf, is about the size of Earth but has a mass similar to the Sun, making it incredibly dense. Composed mainly of carbon and oxygen with a thin outer layer of hydrogen or helium, white dwarfs start very hot but cool and fade over billions of years, offering valuable insights into the life cycles of stars.</p>
+
+
+<hr style="width: 60%;">
+
+ </section>
+            <h2 style="font-size:40px; text-align:center; margin-top:1px;">About Brown Dwarfs</h2>
+            <ul>
+                <li>Did you know that the Brown Dwarfs is a Celestial objects between planets and stars, often called "failed stars."</li>
+                <li>They are 13 to 80 times the mass of Jupiter, with surface temperatures ranging from 250 to 2,500 Kelvin, glowing faintly in infrared light.</li>
+                <li>They form like stars, from collapsing gas clouds, but lack the mass needed to ignite full nuclear fusion.</li>
+                <li>Brown dwarfs bridge the gap between planets and stars, helping scientists understand how these celestial bodies form and evolve.</li>
+            </ul>
+        <section>
+<hr style="width: 60%;">
+
+
+<div style="text-align:center; margin-top:60px; background-color: transparent;">
+<a style="padding-right:20px;" href="Main Sequence Stars.html">Main Sequence Stars</a>
+<a style="padding-right:20px;" href="Red Giant.html">Red Giants</a>
+<a style="padding-right:20px;" href="Red Dwarfs.html">Red Dwarfs</a>
+<a style="padding-right:20px;" href="White Dwarfs.html">White Dwarfs</a>
+<a style="padding-right:20px;" href="Brown Dwarfs.html">Brown Dwarfs</a>
+<a style="padding-right:20px;" href="index.html.html">about</a>
+
+</div>
+
+
+</footer>
+    <script>
+        // JavaScript for star animation
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        const stars = [];
+        const STAR_COUNT = 700;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speed = Math.random() * 0.5;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+            }
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+                this.draw();
+            }
+        }
+
+        function initStars() {
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => star.update());
+            requestAnimationFrame(animateStars);
+        }
+
+        initStars();
+        animateStars();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars.length = 0;
+            initStars();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
